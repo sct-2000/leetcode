@@ -1,0 +1,40 @@
+给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+
+In [ ]:
+# 前序
+def __init__(self):
+    self.out = []
+
+
+def preorderTraversal(self, root):
+    if root is None: return []
+    self.out.extend([root.val])
+    self.preorderTraversal(root.left)
+    self.preorderTraversal(root.right)
+    return self.out
+
+
+# 中序
+def __init__(self):
+    self.out = []
+
+
+def inorderTraversal(self, root):
+    if root is None: return [] 
+    self.inorderTraversal(root.left)
+    self.out.extend([root.val])
+    self.inorderTraversal(root.right)
+    return self.out
+
+
+# 后序
+def __init__(self):
+    self.out = []
+
+
+def postorderTraversal(self, root):
+    if root is None: return []
+    self.postorderTraversal(root.left)
+    self.postorderTraversal(root.right)
+    self.out.extend([root.val])
+    return self.out
