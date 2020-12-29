@@ -1,0 +1,33 @@
+给定一个非负整数数组，你最初位于数组的第一个位置。 数组中的每个元素代表你在该位置可以跳跃的最大长度。 判断你是否能够到达最后一个位置。
+
+思路： 我们设当前遍历的位置为pos，然后从第一个位置开始访问，即pos=0； 先让其直接尝试跳到最远的位置，即pos + nums[i]，在这里，我们判断是否最远位置超过了最后一个位置; 当前位置pos根据是否可以进行跳跃，分情况处理： (1). 如果当前位置不能进行跳跃，即nums[pos] = 0，此时我们才需要从后往前遍历，即从位置pos-1到0进行遍历(将其设为l): 第一种情况：找到l+nums[l] > pos，即前面有某个位置可以到达更远的位置，我们将其进行更新，即pos = l + nums[l]，返回步骤2； 第二种情况：没有找到l+nums[l] > pos，那么最远只能到达位置i，证明无法到达最后一个位置。 (2). 如果当前位置可以跳跃，我们继续往最远的位置进行跳跃即可，即pos = pos + nums[pos]
+
+In [ ]:
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        n = len(nums)
+        if n == 1:
+            return True
+
+        pos = 0
+
+        while True:
+            if pos + nums[pos] >= n - 1:
+                return True
+
+            if nums[pos] == 0:
+                flag = True
+                for i in range(pos-1, -1, -1):
+                    if nums[i] + i >= n - 1:
+                        return True
+                    if nums[i] + i > pos:
+                        pos = nums[i] + i
+                        flag = False
+                        break
+                if flag:
+                    return False
+                continue
+
+            pos += nums[pos]
+
+        return False
