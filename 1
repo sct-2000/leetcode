@@ -1,0 +1,33 @@
+#1、暴力法
+解题关键主要是想找到 num2 = target - num1，是否也在 list 中，那么就需要运用以下两个方法：
+
+num2 in nums，返回 True 说明存在
+nums.index(num2)，查找 num2 的索引
+
+def twoSum(nums, target):
+    lens = len(nums)
+    j=-1
+    for i in range(lens):
+        if (target - nums[i]) in nums:
+            if (nums.count(target - nums[i]) == 1)&(target - nums[i] == nums[i]):#如果num2=num1,且nums中只出现了一次，说明找到是num1本身。
+                continue
+            else:
+                j = nums.index(target - nums[i],i+1) #index(x,i+1)是从num1后的序列后找num2                
+                break
+    if j>0:
+        return [i,j]
+    else:
+        return []
+
+#2、用字典模拟哈希
+通过哈希来求解，这里通过字典来模拟哈希查询的过程。
+个人理解这种办法相较于方法一其实就是字典记录了 num1 和 num2 的值和位置，而省了再查找 num2 索引的步骤。
+
+def twoSum(nums, target):
+    hashmap={}
+    for ind,num in enumerate(nums):
+        hashmap[num] = ind
+    for i,num in enumerate(nums):
+        j = hashmap.get(target - num)
+        if j is not None and i!=j:
+            return [i,j]
