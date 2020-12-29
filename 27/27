@@ -1,0 +1,16 @@
+给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
+
+说明：本题中，我们将空字符串定义为有效的回文串。
+
+In [ ]:
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        #将字符串全部变为小写
+        s = s.lower()
+        a = []
+        #如果是字母或者数字，添加到数组元素中
+        for i in s:
+            if i in "abcdefghijklmnopqrstuvwxyz0123456789":
+                a.append(i)
+        #比较顺序跟逆序，返回结果
+        return(a[::1]==a[::-1])
