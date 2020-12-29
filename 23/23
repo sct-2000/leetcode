@@ -1,0 +1,19 @@
+给定一个二叉树，找出其最小深度。 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。 说明：叶子节点是指没有子节点的节点。
+
+解题思路 DFS： 递归，处理左右子树的各种情况（if-else） BFS： 按层遍历，寻找第一个叶子结点
+
+In [ ]:
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root: return 0
+
+        ans = 0
+        if not root.left and not root.right: 	# 叶子节点
+            ans = 1
+        elif root.left and root.right:  # 左右子树均不为空
+            ans = min(self.minDepth(root.left), self.minDepth(root.right)) + 1
+        elif root.left:		# 左子树不为空 & 右子树为空
+            ans = self.minDepth(root.left) + 1
+        else:			# 左子树为空 & 右子树不为空
+            ans = self.minDepth(root.right) + 1
+        return ans
