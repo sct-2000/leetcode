@@ -1,0 +1,28 @@
+给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。 有效的 IP 地址 正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 0），整数之间用 '.' 分隔。 例如："0.1.2.201" 和 "192.168.1.1" 是 有效的 IP 地址，但是 "0.011.255.245"、"192.168.1.312" 和 "192.168@1.1" 是 无效的 IP 地址。
+
+整体想法是每次从s中取开头1~3个数组组成的数，如果这个数在0~255范围内，则加到ip里， 进行下一步函数调用判断（如果这个数是0，则只选0这个数，提前到下一轮函数调用判断）。 如果：（1）当下的ip满足ip中有四个数，（2）且当下的index等于s字符串的长度。则这个ip符合要求。
+
+In [ ]:
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        def helper(allcur, subcur, cnt, ind):
+            if cnt == 4 and ind == len(s):      #ip(也就是allcur)中有四个数字，且已经ip的长度等于s的长度，符合条件，加到结果里
+                res.append(allcur[1:])
+            if cnt >= 4:     #不符合条件，但是ip中不能有超过四个数字，结束回溯
+                return 
+
+            for j in range(min(3, len(s)-ind)):
+                cur = '.'
+                if s[ind] == '0':
+                    helper(allcur + s[ind], s[ind], cnt + 1, ind + 1)   #如果当下ind处为0，则不能再加后面的数字了（break），直接开始回溯；
+                    break                           
+                for i in range(ind, ind+j+1):                   
+                    cur += s[i]
+                if 0 <= int(cur[1:]) <= 255:
+                    helper(allcur + cur, cur, cnt + 1, ind+j+1)          
+        
+        if len(s) < 4 and len(s) > 12:   #如果s的长度过长或者过短，则不可能成为有效ip
+            return []
+        res = []
+        helper('', '', 0, 0)
+        return res
